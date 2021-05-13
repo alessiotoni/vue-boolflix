@@ -1,9 +1,9 @@
 const app = new Vue({
     el: "#app",
     data: {
+        globalList: [],
         moviesList: [],
         seriesTvList: [],
-        globalList: [],
         textToSearch: "",
         typesList: [
             "movie", "tv",
@@ -11,7 +11,7 @@ const app = new Vue({
         typeToSearch: "",
     },
     computed: {
-        
+
     },
     methods: {
         searchMovies() {
@@ -24,10 +24,16 @@ const app = new Vue({
             }
             axios.get("https://api.themoviedb.org/3/search/movie", query)
                 .then((resp) => {
-                    resp.data.results.forEach(element => {
-                        this.globalList.push(element);    
+                    const moviesList = resp.data.results.map((movie) => {
+                        movie.type = "movie"
+                        return movie
+                    })
+                    moviesList.forEach((element) => {
+                        this.moviesList.push(element);
+                        this.globalList.push(element);
                     });
                     
+
                 })
         },
         searchSeriesTv() {
@@ -38,35 +44,34 @@ const app = new Vue({
                     language: "it-IT",
                 }
             }
-            let get = axios.get("https://api.themoviedb.org/3/search/tv", query)
-
-
-            get.then((resp) => {
+            axios.get("https://api.themoviedb.org/3/search/tv", query)
+                .then((resp) => {
                     const seriesTvList = resp.data.results.map((serieTv) => {
                         serieTv.title = serieTv.name
                         serieTv.original_title = serieTv.original_name
+                        serieTv.type = "seriesTv"
                         return serieTv
                     })
-                    seriesTvList.forEach(element => {
+                    seriesTvList.forEach((element) => {
+                        this.seriesTvList.push(element);
                         this.globalList.push(element);
                     })
-                    
+
                 })
         },
         searchOnClick() {
             this.globalList = []
+            this.seriesTvList = []
+            this.moviesList = []
 
             switch (this.typeToSearch) {
 
                 case ("movie"):
                     this.searchMovies()
-
                     break;
 
                 case ("tv"):
-                    this.moviesList = [];
                     this.searchSeriesTv()
-
                     break;
 
                 case (""):
@@ -84,8 +89,8 @@ const app = new Vue({
                 return 'flag-icon-' + film.original_language
             }
 
-        
-            
+
+
         }
     },
     mounted() {
