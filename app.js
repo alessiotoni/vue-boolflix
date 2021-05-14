@@ -10,6 +10,7 @@ const app = new Vue({
         ],
         typeToSearch: "",
         showSearchBar: false,
+        showSearchButton: false,
         stars: ['1', '2', '3', '4', '5']
     },
     computed: {
@@ -68,28 +69,34 @@ const app = new Vue({
         },
         searchOnClick() {
 
-            this.globalList = []
-            this.seriesTvList = []
-            this.moviesList = []
+            if (this.textToSearch) {
+                this.globalList = []
+                this.seriesTvList = []
+                this.moviesList = []
 
-            switch (this.typeToSearch) {
+                switch (this.typeToSearch) {
 
-                case ("movie"):
-                    this.searchMovies()
-                    break;
+                    case ("movie"):
+                        this.searchMovies()
+                        break;
 
-                case ("tv"):
-                    this.searchSeriesTv()
-                    break;
+                    case ("tv"):
+                        this.searchSeriesTv()
+                        break;
 
-                case (""):
-                    this.searchMovies()
-                    this.searchSeriesTv()
-                    break;
+                    case (""):
+                        this.searchMovies()
+                        this.searchSeriesTv()
+                        break;
+                }
+
+                this.textToSearch = ""
+
+                this.clickShowSearchBar()
+
             }
 
-            this.textToSearch = ""
-            this.clickShowSearchBar()
+
         },
         getCountrysFlag(film) {
             switch (film.original_language) {
@@ -105,10 +112,6 @@ const app = new Vue({
                     return 'flag-icon-us' + film.original_language
 
             }
-            // if (film.original_language == 'en') {
-            // } else {
-            //     return 'flag-icon-' + film.original_language
-            // }
         },
         getImg(film) {
             return "http://image.tmdb.org/t/p/w500" + film.img
@@ -121,8 +124,20 @@ const app = new Vue({
             return false
         },
         clickShowSearchBar() {
-            this.showSearchBar = !this.showSearchBar
-        }
+            if (this.showSearchBar === false) {
+                this.showSearchBar = true
+                this.showSearchButton = true
+                setTimeout(() => {
+                    document.querySelector('.box input').focus()
+                }, 1000)
+            } else {
+                this.showSearchButton = false
+                setTimeout(() => {
+                    this.showSearchBar = false
+                }, 1000)
+            }
+
+        },
     },
     mounted() {
 
