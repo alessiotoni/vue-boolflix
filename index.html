@@ -49,26 +49,27 @@
         <main>
             <aside>
                 <div class="content">
-                    <p>Filta per :</p>
+                    <p style="padding: 5px 0;">Filta per :</p>
 
                     <div class="dropdown">
-                        <div @click="showDDF()">
+                        <div @click="showDDF()" class="dropdown_button">
                             Film  <i v-if="!showDropDownFilm" class="fa fa-caret-down" aria-hidden="true"></i>
-                            </div>
+                        </div>
 
                         <ul v-if="showDropDownFilm">
-                            <li v-for="genre in genresMovies" @click="getFilterMovies(genre)">{{genre.name}}</li>
+                        <li v-for="genre in genresMovies" @click="getFilterMovies(genre)">{{genre.name}}</li>
                         </ul>
-
+                    
                     </div>
+
                     <div class="dropdown">
-                        <div @click="showDDST()">
+                        <div @click="showDDST()" class="dropdown_button">
                             Serie Tv<i v-if="!showDropDownSeriesTv" class="fa fa-caret-down" aria-hidden="true"></i>
                             </i>
                         </div>
 
                         <ul v-if="showDropDownSeriesTv">
-                            <li v-for="genre in genresSeriesTv">{{genre.name}}</li>
+                            <li v-for="genre in genresSeriesTv" @click="getFilterSeriesTv(genre)">{{genre.name}}</li>
                         </ul>
 
                     </div>
@@ -109,6 +110,7 @@
                         </div>
                     </div>
                 </div>
+                <p v-if="showNotFound">Nessun Risultato</p>
             </div>
 
         </main>

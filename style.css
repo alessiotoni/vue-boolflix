@@ -241,7 +241,7 @@ aside {
 }
 
 aside .content {
-    padding: 5px 10px;
+    padding: 10px;
     background-color: black;
     border-radius: 4px;
 
@@ -259,10 +259,13 @@ aside ul li {
 }
 
 .dropdown {
-    margin: 5px 0;
+    margin: 1px 0;
     cursor: pointer;
-    padding: 10px 0;
     border-radius: 4px;
+}
+
+.dropdown .dropdown_button {
+    padding: 10px 0;
 }
 
 .dropdown:hover {

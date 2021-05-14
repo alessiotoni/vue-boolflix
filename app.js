@@ -16,14 +16,13 @@ const app = new Vue({
         genresSeriesTv: [],
         showDropDownFilm: false,
         showDropDownSeriesTv: false,
-        filterMovie: "",
-        filterSeriesTv: "",
+        showNotFound: false,
     },
     computed: {
-
+        
     },
     methods: {
-        getGenresMovies(){
+        getGenresMovies() {
             const query = {
                 params: {
                     api_key: "7dc4ed377361dc12e209ca035023ec50",
@@ -31,14 +30,14 @@ const app = new Vue({
                 }
             }
             axios.get("https://api.themoviedb.org/3/genre/movie/list", query)
-            .then((resp) => {
-                resp.data.genres.forEach((genre) => {
-                    this.genresMovies.push(genre)
+                .then((resp) => {
+                    resp.data.genres.forEach((genre) => {
+                        this.genresMovies.push(genre)
 
+                    })
                 })
-            })
         },
-        getGenresSeriesTv(){
+        getGenresSeriesTv() {
             const query = {
                 params: {
                     api_key: "7dc4ed377361dc12e209ca035023ec50",
@@ -46,33 +45,33 @@ const app = new Vue({
                 }
             }
             axios.get("https://api.themoviedb.org/3/genre/tv/list", query)
-            .then((resp) => {
-                resp.data.genres.forEach((genre) => {
-                    this.genresSeriesTv.push(genre)
+                .then((resp) => {
+                    resp.data.genres.forEach((genre) => {
+                        this.genresSeriesTv.push(genre)
 
+                    })
                 })
-            })
         },
-        reset(){
+        reset() {
             this.globalList = []
             this.moviesList = []
             this.seriesTvList = []
         },
-        homeClick(){
+        homeClick() {
             this.reset()
 
             this.defaultMovies()
-            this.defaultSeriesTv
+            this.defaultSeriesTv()
         },
-        seriesTvClick(){
+        seriesTvClick() {
             this.reset()
             this.defaultSeriesTv()
         },
-        moviesClick(){
+        moviesClick() {
             this.reset()
             this.defaultMovies()
         },
-        defaultMovies(){
+        defaultMovies() {
             const query = {
                 params: {
                     api_key: "7dc4ed377361dc12e209ca035023ec50",
@@ -96,7 +95,7 @@ const app = new Vue({
                     });
                 })
         },
-        defaultSeriesTv(){
+        defaultSeriesTv() {
             const query = {
                 params: {
                     api_key: "7dc4ed377361dc12e209ca035023ec50",
@@ -115,7 +114,7 @@ const app = new Vue({
                     })
                     moviesList.forEach((element) => {
 
-                        this.moviesList.push(element);
+                        this.seriesTvList.push(element);
                         this.globalList.push(element);
                     });
                 })
@@ -239,19 +238,41 @@ const app = new Vue({
             }
 
         },
-        showDDF(){
+        showDDF() {
             this.showDropDownFilm = !this.showDropDownFilm
             this.showDropDownSeriesTv = false
 
         },
-        showDDST(){
+        showDDST() {
             this.showDropDownSeriesTv = !this.showDropDownSeriesTv
             this.showDropDownFilm = false
 
         },
-        getFilterMovies(genre){
+        notFound(){
+            if (this.globalList.length == 0) {
+                this.showNotFound = true
+            } else {
+                this.showNotFound = false
+            }
+        },
+        getFilterMovies(genre) {
+            const filteredGenresMovies = this.moviesList.filter((film) => {
+                return film.genre_ids.includes(genre.id)
+            })
+            this.globalList = filteredGenresMovies
+
+            this.notFound()
             
-        }
+        },
+        getFilterSeriesTv(genre) {
+            const filteredGenresSeriesTV = this.seriesTvList.filter((film) => {
+                return film.genre_ids.includes(genre.id)
+            })
+            this.globalList = filteredGenresSeriesTV
+
+            this.notFound()
+            
+        },
     },
     mounted() {
         this.defaultMovies()
