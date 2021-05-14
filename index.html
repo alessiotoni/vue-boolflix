@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -14,21 +15,64 @@
 </head>
 <body>
     <div id="app">
-        <select v-model="typeToSearch">
-            <option value="" selected>All</option>
-            <option :value="type" v-for="type in typesList">{{type}}</option>
-        </select>
-        <input type="text" v-model="textToSearch" @keyup.enter="searchOnClick()">
-        <button @click="searchOnClick()">Cerca</button>
+        <header>
+            <div class="container">
 
-        <ul v-for="film in globalList">
-           
-            <li>{{film.title}}</li>
-            <li>{{film.original_title}}</li>
-            <li><span class="flag-icon" :class="getCountrysFlag(film)"></span>
-            <li>{{film.vote_average}}</li>
-                
-        </ul>
+                <h2>boolflix</h2>
+                <div class="white_space"></div>
+
+                <i v-if="!showSearchBar" class="fa fa-search" aria-hidden="true" @click="clickShowSearchBar"></i>
+
+                <div v-else class="container_search">
+                    <input type="text" v-model="textToSearch" @keyup.enter="searchOnClick()">
+                    <i class="fa fa-search" aria-hidden="true" @click="searchOnClick()"></i>
+
+                    <select v-model="typeToSearch">
+                        <option value="" selected>All</option>
+                        <option :value="type" v-for="type in typesList">{{type}}</option>
+                    </select>
+                </div>
+
+            </div>
+        </header>
+
+        <main>
+
+            <div class="container">
+
+                <div class="card" v-for="film in globalList">
+                    <img :src="getImg(film)" :alt="film.title">
+                    <div class="layover">
+                        <div class="description">
+
+                            <p><span class="color">Titolo:</span> <span>{{film.title}}</span></p>
+                            <p><span class="color">Titolo Originale:</span> <span>{{film.original_title}}</span></p>
+                            <p v-if="film.type === 'movie'" class="overwiev"><span class="color">Descrizione:</span> <span>{{film.overview}}</span></p>
+                            <p><span class="color">Lingua:</span> <span class="flag-icon" :class="getCountrysFlag(film)"></span></p>
+                            <p><i class='fa fa-star' aria-hidden='true' v-for="star in voteAverageStars(film)"></i></p>
+
+
+
+
+
+
+
+                            <!-- <ul>
+                                <li><span>Titolo:</span> <br> <span>{{film.title}}</span></li>
+                                <li><span>Titolo Originale:</span> <br> <span>{{film.original_title}}</span></li>
+                                <li v-if="film.type === 'movie' "><span>Descrizione:</span> <p>{{film.overview}}</p></li>
+                                <li><span>Lingua:</span> <span class="flag-icon" :class="getCountrysFlag(film)"></span></li>
+                                <li><i class='fa fa-star' aria-hidden='true' v-for="star in voteAverageStars(film)"></i></li>
+                            </ul> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </main>
+
         
     </div>
 
