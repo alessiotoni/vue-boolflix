@@ -21,16 +21,19 @@
                 <h2>boolflix</h2>
                 <div class="white_space"></div>
 
-                <i v-if="!showSearchBar" class="fa fa-search" aria-hidden="true" @click="clickShowSearchBar"></i>
+                <i class="fa fa-search" aria-hidden="true" @click="clickShowSearchBar" v-if="!showSearchBar"></i>
 
-                <div v-else class="container_search">
-                    <input type="text" v-model="textToSearch" @keyup.enter="searchOnClick()">
-                    <i class="fa fa-search" aria-hidden="true" @click="searchOnClick()"></i>
-
+                <div class="container_search" :class="{'appear': (showSearchBar)}">
                     <select v-model="typeToSearch">
                         <option value="" selected>All</option>
                         <option :value="type" v-for="type in typesList">{{type}}</option>
                     </select>
+                    <div class="box">
+                        <input type="text" v-model="textToSearch" @keyup.enter="searchOnClick()">
+                        <i class="fa fa-search" aria-hidden="true" @click="searchOnClick()"></i>
+                    </div>
+
+                    
                 </div>
 
             </div>
@@ -41,7 +44,12 @@
             <div class="container">
 
                 <div class="card" v-for="film in globalList">
-                    <img :src="getImg(film)" :alt="film.title">
+                    <img v-if="film.img" :src="getImg(film)" :alt="film.title">
+                    <div v-else class="not_img">
+                        <div>
+                            <span class="first_letter">{{film.title[0].toUpperCase()}}</span>
+                        </div>
+                    </div>
                     <div class="layover">
                         <div class="description">
 
@@ -50,20 +58,6 @@
                             <p v-if="film.overview" class="overview"><span class="color">Descrizione:</span> <span>{{film.overview}}</span></p>
                             <p><span class="color">Lingua:</span> <span class="flag-icon" :class="getCountrysFlag(film)"></span></p>
                             <p><i class='fa fa-star' aria-hidden='true' v-for="(star, index) in stars" :class="{'color_yellow': voteAverageStars(film, index)}"></i></p>
-
-
-
-
-
-
-
-                            <!-- <ul>
-                                <li><span>Titolo:</span> <br> <span>{{film.title}}</span></li>
-                                <li><span>Titolo Originale:</span> <br> <span>{{film.original_title}}</span></li>
-                                <li v-if="film.type === 'movie' "><span>Descrizione:</span> <p>{{film.overview}}</p></li>
-                                <li><span>Lingua:</span> <span class="flag-icon" :class="getCountrysFlag(film)"></span></li>
-                                <li><i class='fa fa-star' aria-hidden='true' v-for="star in voteAverageStars(film)"></i></li>
-                            </ul> -->
                         </div>
                     </div>
                 </div>

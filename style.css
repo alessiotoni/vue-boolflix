@@ -34,6 +34,9 @@ header {
 
 header .container {
     align-items: center;
+    overflow: hidden;
+    position: relative;
+    color: white;
 }
 
 header h2 {
@@ -47,16 +50,23 @@ header .container_search{
     flex-shrink: 0;
 }
 
+header .container_search {
+    position: absolute;
+    right: -250px;
+    transition: all 1s;
+}
+
+header .container_search.appear {
+    right: 0px;
+}
+
 header .white_space {
     flex-grow: 1;
 }
 
-.fa-search{
-    color: white;
-}
-
-header .container_search {
+header .box {
     position: relative;
+    display: inline-block;
 }
 
 .container_search .fa-search {
@@ -82,8 +92,6 @@ header .container_search {
     border-radius: 4px;
     padding: 2px;
     border: 1px solid white;
-
-
 }
 
 main {
@@ -104,15 +112,41 @@ main .card {
     margin: 5px;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
+
 }
 
 .card img {
     width: 100%;
-    /* max-height: 100%; */
+    max-height: 100%;
     object-fit: cover;
     object-position: center;
-    cursor: pointer;
 }
+/* no img */
+.card .not_img {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(27, 26, 26);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card .not_img div {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card .not_img div .first_letter {
+    font-size: 35px;
+    font-weight: 600;
+}
+
 /* card description */
 .description {
     position: absolute;

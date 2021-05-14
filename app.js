@@ -10,7 +10,7 @@ const app = new Vue({
         ],
         typeToSearch: "",
         showSearchBar: false,
-        stars: ['1','2','3','4','5']
+        stars: ['1', '2', '3', '4', '5']
     },
     computed: {
 
@@ -30,7 +30,7 @@ const app = new Vue({
 
                         movie.type = "movie";
                         movie.img = movie.poster_path
-                        
+
                         return movie
                     })
                     moviesList.forEach((element) => {
@@ -92,27 +92,39 @@ const app = new Vue({
             this.clickShowSearchBar()
         },
         getCountrysFlag(film) {
-            if (film.original_language == 'en') {
-                return 'flag-icon-us'
-            } else {
-                return 'flag-icon-' + film.original_language
+            switch (film.original_language) {
+                case ('en'):
+                    return 'flag-icon-us'
+                case ('usfr'):
+                    return 'flag-icon-us'
+                case ('ussv'):
+                    return 'flag-icon-us'
+                case ('ja'):
+                    return 'flag-icon-jp'
+                default:
+                    return 'flag-icon-us' + film.original_language
+
             }
+            // if (film.original_language == 'en') {
+            // } else {
+            //     return 'flag-icon-' + film.original_language
+            // }
         },
-        getImg(film){
+        getImg(film) {
             return "http://image.tmdb.org/t/p/w500" + film.img
         },
-        voteAverageStars(film, index){
+        voteAverageStars(film, index) {
             const voteAverage = Math.ceil(film.vote_average / 2)
             if ((index + 1) <= voteAverage) {
                 return true
             }
             return false
         },
-        clickShowSearchBar(){
+        clickShowSearchBar() {
             this.showSearchBar = !this.showSearchBar
         }
     },
     mounted() {
-        
+
     },
 })
