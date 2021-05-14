@@ -11,12 +11,115 @@ const app = new Vue({
         typeToSearch: "",
         showSearchBar: false,
         showSearchButton: false,
-        stars: ['1', '2', '3', '4', '5']
+        stars: ['1', '2', '3', '4', '5'],
+        genresMovies: [],
+        genresSeriesTv: [],
+        showDropDownFilm: false,
+        showDropDownSeriesTv: false,
+        filterMovie: "",
+        filterSeriesTv: "",
     },
     computed: {
 
     },
     methods: {
+        getGenresMovies(){
+            const query = {
+                params: {
+                    api_key: "7dc4ed377361dc12e209ca035023ec50",
+                    language: "it-IT",
+                }
+            }
+            axios.get("https://api.themoviedb.org/3/genre/movie/list", query)
+            .then((resp) => {
+                resp.data.genres.forEach((genre) => {
+                    this.genresMovies.push(genre)
+
+                })
+            })
+        },
+        getGenresSeriesTv(){
+            const query = {
+                params: {
+                    api_key: "7dc4ed377361dc12e209ca035023ec50",
+                    language: "it-IT",
+                }
+            }
+            axios.get("https://api.themoviedb.org/3/genre/tv/list", query)
+            .then((resp) => {
+                resp.data.genres.forEach((genre) => {
+                    this.genresSeriesTv.push(genre)
+
+                })
+            })
+        },
+        reset(){
+            this.globalList = []
+            this.moviesList = []
+            this.seriesTvList = []
+        },
+        homeClick(){
+            this.reset()
+
+            this.defaultMovies()
+            this.defaultSeriesTv
+        },
+        seriesTvClick(){
+            this.reset()
+            this.defaultSeriesTv()
+        },
+        moviesClick(){
+            this.reset()
+            this.defaultMovies()
+        },
+        defaultMovies(){
+            const query = {
+                params: {
+                    api_key: "7dc4ed377361dc12e209ca035023ec50",
+                    // query: this.textToSearch,
+                    language: "it-IT",
+                }
+            }
+            axios.get("https://api.themoviedb.org/3/discover/movie", query)
+                .then((resp) => {
+                    const moviesList = resp.data.results.map((movie) => {
+
+                        movie.type = "movie";
+                        movie.img = movie.poster_path
+
+                        return movie
+                    })
+                    moviesList.forEach((element) => {
+
+                        this.moviesList.push(element);
+                        this.globalList.push(element);
+                    });
+                })
+        },
+        defaultSeriesTv(){
+            const query = {
+                params: {
+                    api_key: "7dc4ed377361dc12e209ca035023ec50",
+                    // query: this.textToSearch,
+                    language: "it-IT",
+                }
+            }
+            axios.get("https://api.themoviedb.org/3/discover/tv", query)
+                .then((resp) => {
+                    const moviesList = resp.data.results.map((movie) => {
+
+                        movie.type = "seriesTv";
+                        movie.img = movie.poster_path
+
+                        return movie
+                    })
+                    moviesList.forEach((element) => {
+
+                        this.moviesList.push(element);
+                        this.globalList.push(element);
+                    });
+                })
+        },
         searchMovies() {
             const query = {
                 params: {
@@ -70,9 +173,7 @@ const app = new Vue({
         searchOnClick() {
 
             if (this.textToSearch) {
-                this.globalList = []
-                this.seriesTvList = []
-                this.moviesList = []
+                this.reset()
 
                 switch (this.typeToSearch) {
 
@@ -138,8 +239,24 @@ const app = new Vue({
             }
 
         },
+        showDDF(){
+            this.showDropDownFilm = !this.showDropDownFilm
+            this.showDropDownSeriesTv = false
+
+        },
+        showDDST(){
+            this.showDropDownSeriesTv = !this.showDropDownSeriesTv
+            this.showDropDownFilm = false
+
+        },
+        getFilterMovies(genre){
+            
+        }
     },
     mounted() {
-
+        this.defaultMovies()
+        this.defaultSeriesTv()
+        this.getGenresMovies()
+        this.getGenresSeriesTv()
     },
 })

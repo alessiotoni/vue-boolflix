@@ -19,6 +19,10 @@ html {
     font-weight: 700;
 }
 
+ul {
+    list-style: none;
+}
+
 /* header */
 header {
     flex-shrink: 0;
@@ -52,7 +56,6 @@ header .navbar {
 }
 
 .navbar ul li {
-    list-style: none;
     display: inline-block;
     font-size: 15px;
     padding: 6px 8px;
@@ -60,7 +63,8 @@ header .navbar {
     border-radius: 4px;
 }
 
-.navbar ul li:hover {
+.navbar ul li:hover,
+aside ul li:hover {
     background-color: rgb(68, 64, 64);
 }
 /* navbar search */
@@ -113,24 +117,30 @@ main {
     flex-grow: 1;
     color: white;
     background-color: rgb(68, 64, 64);
+    display: flex;
+    padding: 5px;
+    position: relative;
+    justify-content: space-evenly;
 }
 
 main .container {
     overflow: auto;
     flex-wrap: wrap;
-    padding-bottom: 10px;
-    max-width: 1200px;
-    margin: auto;
+    flex-grow: 1;
+    /* padding: 5px; */
+    /* max-width: 1200px; */
+    /* margin: auto; */
     display: flex;
+    /* justify-content: center; */
     height: 100%;
-    position: relative;
+    /* position: relative; */
 }
 
 /* card */
 main .card {
-    width: calc(100% / 4 - 10px);
-    height: 450px;
-    margin: 5px;
+    width: calc(100% / 4);
+    height: 420px;
+    /* margin: 5px; */
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -187,7 +197,8 @@ main .card {
 
 .description .overview {
     /* max-height: 260px; */
-    overflow: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
     line-height: 20px;
     flex-grow: 1;
 }
@@ -214,4 +225,56 @@ main .card {
     top: 0;
     backdrop-filter: blur(5px);
 }
+
+
+
+
+
+
+
+
+aside {
+    width: calc(100% / 5);
+    flex-shrink: 0;
+    margin-right: 5px;
+    color: white;
+}
+
+aside .content {
+    padding: 5px 10px;
+    background-color: black;
+    border-radius: 4px;
+
+}
+
+aside ul {
+    padding: 3px;
+}
+
+aside ul li {
+    padding: 3px;
+    border-radius: 4px;
+    margin: 2px 0;
+    cursor: pointer;
+}
+
+.dropdown {
+    margin: 5px 0;
+    cursor: pointer;
+    padding: 10px 0;
+    border-radius: 4px;
+}
+
+.dropdown:hover {
+    background-color: white;
+    color: black;
+}
+
+.dropdown i {
+    margin-left: 5px;
+}
+
+
+
+
 

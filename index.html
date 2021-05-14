@@ -20,9 +20,9 @@
 
                 <h2>boolflix</h2>
                 <ul>
-                    <li>Home</li>
-                    <li>Serie Tv</li>
-                    <li>Film</li>
+                    <li @click="homeClick()">Home</li>
+                    <li @click="seriesTvClick()">Serie Tv</li>
+                    <li @click="moviesClick()">Film</li>
                     <li>Originali</li>
                     <li>Aggiunti di recente</li>
                     <li>La mia lista</li>
@@ -47,6 +47,35 @@
         </header>
 
         <main>
+            <aside>
+                <div class="content">
+                    <p>Filta per :</p>
+
+                    <div class="dropdown">
+                        <div @click="showDDF()">
+                            Film  <i v-if="!showDropDownFilm" class="fa fa-caret-down" aria-hidden="true"></i>
+                            </div>
+
+                        <ul v-if="showDropDownFilm">
+                            <li v-for="genre in genresMovies" @click="getFilterMovies(genre)">{{genre.name}}</li>
+                        </ul>
+
+                    </div>
+                    <div class="dropdown">
+                        <div @click="showDDST()">
+                            Serie Tv<i v-if="!showDropDownSeriesTv" class="fa fa-caret-down" aria-hidden="true"></i>
+                            </i>
+                        </div>
+
+                        <ul v-if="showDropDownSeriesTv">
+                            <li v-for="genre in genresSeriesTv">{{genre.name}}</li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </aside>
             <div class="container">
 
                 <div class="card" v-for="film in globalList">
