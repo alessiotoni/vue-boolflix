@@ -9,7 +9,8 @@ const app = new Vue({
             "movie", "tv",
         ],
         typeToSearch: "",
-        showSearchBar: false
+        showSearchBar: false,
+        stars: ['1','2','3','4','5']
     },
     computed: {
 
@@ -100,13 +101,12 @@ const app = new Vue({
         getImg(film){
             return "http://image.tmdb.org/t/p/w500" + film.img
         },
-        voteAverageStars(film){
+        voteAverageStars(film, index){
             const voteAverage = Math.ceil(film.vote_average / 2)
-            const stars = []
-            for (let i = 0; i < voteAverage; i++){
-                stars.push(i)
+            if ((index + 1) <= voteAverage) {
+                return true
             }
-            return stars
+            return false
         },
         clickShowSearchBar(){
             this.showSearchBar = !this.showSearchBar

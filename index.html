@@ -47,9 +47,9 @@
 
                             <p><span class="color">Titolo:</span> <span>{{film.title}}</span></p>
                             <p><span class="color">Titolo Originale:</span> <span>{{film.original_title}}</span></p>
-                            <p v-if="film.type === 'movie'" class="overwiev"><span class="color">Descrizione:</span> <span>{{film.overview}}</span></p>
+                            <p v-if="film.overview" class="overview"><span class="color">Descrizione:</span> <span>{{film.overview}}</span></p>
                             <p><span class="color">Lingua:</span> <span class="flag-icon" :class="getCountrysFlag(film)"></span></p>
-                            <p><i class='fa fa-star' aria-hidden='true' v-for="star in voteAverageStars(film)"></i></p>
+                            <p><i class='fa fa-star' aria-hidden='true' v-for="(star, index) in stars" :class="{'color_yellow': voteAverageStars(film, index)}"></i></p>
 
 
 

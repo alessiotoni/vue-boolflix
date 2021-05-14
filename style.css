@@ -93,7 +93,6 @@ main {
 }
 
 main .container {
-    /* background-color: red; */
     overflow: auto;
     flex-wrap: wrap;
 }
@@ -105,7 +104,6 @@ main .card {
     margin: 5px;
     position: relative;
     overflow: hidden;
-    /* border: 1px solid black; */
 }
 
 .card img {
@@ -129,15 +127,18 @@ main .card {
     margin-bottom: 10px;
 }
 
-.description .overwiev {
+.description .overview {
     height: 141px;
     overflow: auto;
     line-height: 20px;
 }
 
 .description .fa-star {
-    color: gold;
     margin-right: 5px;
+}
+
+.fa-star.color_yellow{
+    color: gold;
 }
 
 /* hover card */
