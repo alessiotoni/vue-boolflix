@@ -79,7 +79,7 @@
             </aside>
             <div class="container">
 
-                <div class="card" v-for="film in globalList" >
+                <div class="card" v-for="film in globalList" @mouseover="getCast(film); getGenre(film)">
 
                     <img v-if="film.img" :src="getImg(film)" :alt="film.title">
 
@@ -108,8 +108,13 @@
                                 <span class="color">Descrizione:</span> <span>{{film.overview}}</span>
                             </p>
                             <p>
-                                <span>Attori</span>
-                                    <span v-for="actor in film.cast">{{actor}}</span>
+                                <span v-if="film.cast" class="color">Attori: </span>
+
+                                <span v-for="actor in film.cast">{{actor}}, </span>
+                            </p>
+                            <p>
+                                <span class="color">Genere: </span>
+                                <span v-for="name_genre in film.genreName"> {{name_genre}},</span>
                             </p>
                         </div>
                     </div>

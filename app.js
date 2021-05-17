@@ -22,7 +22,11 @@ const app = new Vue({
 
     },
     methods: {
-        getCastMovie(id) {
+        getCast(movie) {
+            if (movie.cast) {
+                return
+            }
+
             const query = {
                 params: {
                     api_key: "7dc4ed377361dc12e209ca035023ec50",
@@ -30,17 +34,43 @@ const app = new Vue({
                 }
             }
 
-            const castList = []
+            let typeOfElement;
+            if (movie.type == "movie") {
+                typeOfElement = "movie"
+            } else {
+                typeOfElement = "tv"
+            }
 
-            axios.get(`https://api.themoviedb.org/3/movie/${id}/credits`, query)
+            axios.get(`https://api.themoviedb.org/3/${typeOfElement}/${movie.id}/credits`, query)
                 .then((resp) => {
-                    resp.data.cast.forEach((actor) => castList.push(actor.name))
 
-                    
+                    const castListName = resp.data.cast.map((actor) => actor.name)
+
+                    this.$set(movie, "cast", castListName.slice(0, 5))
+
                 })
 
-            return castList
-            
+        },
+        getGenre(movie) {
+            if (movie.genreName) {
+                return
+            }
+
+            let arrayGenre;
+
+            if (movie.type == "movie") {
+                arrayGenre = this.genresMovies
+            } else if (movie.type == "tv") {
+                arrayGenre = this.genresSeriesTv
+            }
+
+            const genresNames = movie.genre_ids.map((genreId) => {
+
+                return arrayGenre.find((genre) => genre.id == genreId)
+
+            }).filter(x => x !== undefined).map(x => x.name)
+
+            this.$set(movie, 'genreName', genresNames)
 
 
         },
@@ -97,17 +127,14 @@ const app = new Vue({
             const query = {
                 params: {
                     api_key: "7dc4ed377361dc12e209ca035023ec50",
-                    // query: this.textToSearch,
                     language: "it-IT",
                 }
             }
             axios.get("https://api.themoviedb.org/3/discover/movie", query)
                 .then((resp) => {
                     const moviesList = resp.data.results.map((movie) => {
-
                         movie.type = "movie";
                         movie.img = movie.poster_path;
-                        movie.cast = this.getCastMovie(movie.id);
 
                         return movie
                     })
@@ -122,7 +149,6 @@ const app = new Vue({
             const query = {
                 params: {
                     api_key: "7dc4ed377361dc12e209ca035023ec50",
-                    // query: this.textToSearch,
                     language: "it-IT",
                 }
             }
@@ -134,7 +160,6 @@ const app = new Vue({
                         serieTv.img = serieTv.poster_path
                         serieTv.title = serieTv.name
                         serieTv.original_title = serieTv.original_name
-                        // serieTv.cast = this.getCastTv(serieTv.id)
 
                         return serieTv
                     })
@@ -159,7 +184,6 @@ const app = new Vue({
 
                         movie.type = "movie";
                         movie.img = movie.poster_path
-                        movie.cast = this.getCastMovie(movie.id);
 
 
                         return movie
@@ -187,7 +211,6 @@ const app = new Vue({
                         serieTv.original_title = serieTv.original_name
                         serieTv.img = serieTv.poster_path
                         serieTv.type = "tv"
-                        serieTv.cast = this.getCastTv(tv.id)
 
 
                         return serieTv
