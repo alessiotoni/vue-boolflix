@@ -33,10 +33,10 @@
 
                 <div class="container_search" :class="{'appear': (showSearchButton)}">
 
-                    <select v-model="typeToSearch">
+                    <!-- <select v-model="typeToSearch">
                         <option value="" selected>ALL</option>
                         <option :value="type" v-for="type in typesList">{{type.toUpperCase()}}</option>
-                    </select>
+                    </select> -->
 
                     <div class="box">
                         <input @blur="clickShowSearchBar" type="text" v-model="textToSearch" @keyup.enter="searchOnClick()">
