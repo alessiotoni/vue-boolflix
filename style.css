@@ -188,6 +188,7 @@ main .card {
     transition: bottom .5s;
     display: flex;
     flex-direction: column;
+    overflow: auto;
 }
 
 .description > *{

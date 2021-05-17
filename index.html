@@ -79,7 +79,7 @@
             </aside>
             <div class="container">
 
-                <div class="card" v-for="film in globalList">
+                <div class="card" v-for="film in globalList" >
 
                     <img v-if="film.img" :src="getImg(film)" :alt="film.title">
 
@@ -106,6 +106,10 @@
                             </p>
                             <p v-if="film.overview" class="overview">
                                 <span class="color">Descrizione:</span> <span>{{film.overview}}</span>
+                            </p>
+                            <p>
+                                <span>Attori</span>
+                                    <span v-for="actor in film.cast">{{actor}}</span>
                             </p>
                         </div>
                     </div>

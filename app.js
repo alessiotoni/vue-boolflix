@@ -19,9 +19,31 @@ const app = new Vue({
         showNotFound: false,
     },
     computed: {
-        
+
     },
     methods: {
+        getCastMovie(id) {
+            const query = {
+                params: {
+                    api_key: "7dc4ed377361dc12e209ca035023ec50",
+                    language: "it-IT",
+                }
+            }
+
+            const castList = []
+
+            axios.get(`https://api.themoviedb.org/3/movie/${id}/credits`, query)
+                .then((resp) => {
+                    resp.data.cast.forEach((actor) => castList.push(actor.name))
+
+                    
+                })
+
+            return castList
+            
+
+
+        },
         getGenresMovies() {
             const query = {
                 params: {
@@ -84,7 +106,8 @@ const app = new Vue({
                     const moviesList = resp.data.results.map((movie) => {
 
                         movie.type = "movie";
-                        movie.img = movie.poster_path
+                        movie.img = movie.poster_path;
+                        movie.cast = this.getCastMovie(movie.id);
 
                         return movie
                     })
@@ -105,12 +128,15 @@ const app = new Vue({
             }
             axios.get("https://api.themoviedb.org/3/discover/tv", query)
                 .then((resp) => {
-                    const moviesList = resp.data.results.map((movie) => {
+                    const moviesList = resp.data.results.map((serieTv) => {
 
-                        movie.type = "seriesTv";
-                        movie.img = movie.poster_path
+                        serieTv.type = "tv";
+                        serieTv.img = serieTv.poster_path
+                        serieTv.title = serieTv.name
+                        serieTv.original_title = serieTv.original_name
+                        // serieTv.cast = this.getCastTv(serieTv.id)
 
-                        return movie
+                        return serieTv
                     })
                     moviesList.forEach((element) => {
 
@@ -133,6 +159,8 @@ const app = new Vue({
 
                         movie.type = "movie";
                         movie.img = movie.poster_path
+                        movie.cast = this.getCastMovie(movie.id);
+
 
                         return movie
                     })
@@ -158,7 +186,9 @@ const app = new Vue({
                         serieTv.title = serieTv.name
                         serieTv.original_title = serieTv.original_name
                         serieTv.img = serieTv.poster_path
-                        serieTv.type = "seriesTv"
+                        serieTv.type = "tv"
+                        serieTv.cast = this.getCastTv(tv.id)
+
 
                         return serieTv
                     })
@@ -248,7 +278,7 @@ const app = new Vue({
             this.showDropDownFilm = false
 
         },
-        notFound(){
+        notFound() {
             if (this.globalList.length == 0) {
                 this.showNotFound = true
             } else {
@@ -262,7 +292,7 @@ const app = new Vue({
             this.globalList = filteredGenresMovies
 
             this.notFound()
-            
+
         },
         getFilterSeriesTv(genre) {
             const filteredGenresSeriesTV = this.seriesTvList.filter((film) => {
@@ -271,7 +301,7 @@ const app = new Vue({
             this.globalList = filteredGenresSeriesTV
 
             this.notFound()
-            
+
         },
     },
     mounted() {
