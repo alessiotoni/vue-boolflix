@@ -111,6 +111,47 @@ header .container_search .box {
     padding: 2px;
     border: 1px solid white;
 }
+/* aside */
+aside {
+    width: calc(100% / 5);
+    flex-shrink: 0;
+    margin-right: 5px;
+    color: white;
+}
+
+aside .content {
+    padding: 10px;
+    background-color: black;
+    border-radius: 4px;
+
+}
+
+aside ul {
+    padding: 3px;
+    border: 1px solid white;
+    border-radius: 4px;
+}
+
+aside ul li {
+    padding: 3px;
+    border-radius: 4px;
+    margin: 2px 0;
+    cursor: pointer;
+}
+
+.dropdown {
+    margin: 1px 0;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.dropdown .dropdown_button {
+    padding: 5px 3px;
+}
+
+.dropdown i {
+    margin-left: 5px;
+}
 
 /* main */
 main {
@@ -226,59 +267,3 @@ main .card {
     top: 0;
     backdrop-filter: blur(5px);
 }
-
-
-
-
-
-
-
-
-aside {
-    width: calc(100% / 5);
-    flex-shrink: 0;
-    margin-right: 5px;
-    color: white;
-}
-
-aside .content {
-    padding: 10px;
-    background-color: black;
-    border-radius: 4px;
-
-}
-
-aside ul {
-    padding: 3px;
-}
-
-aside ul li {
-    padding: 3px;
-    border-radius: 4px;
-    margin: 2px 0;
-    cursor: pointer;
-}
-
-.dropdown {
-    margin: 1px 0;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.dropdown .dropdown_button {
-    padding: 10px 0;
-}
-
-.dropdown:hover {
-    background-color: white;
-    color: black;
-}
-
-.dropdown i {
-    margin-left: 5px;
-}
-
-
-
-
-
